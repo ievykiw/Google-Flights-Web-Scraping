@@ -45,8 +45,22 @@ time.sleep(5)
 clicar(driver, By.XPATH, f"(//div[@class='zsRT0d'][normalize-space()='{lista_cidade[0]}'])[1]")
 
 data_partida = driver.find_element(By.XPATH, '//input[@aria-label="Partida"]')
-data_partida.click()
+data_partida.send_keys(data_ida)
+
+time.sleep(3)
+
+data_retorno = driver.find_element(By.XPATH, '//input[@aria-label="Volta"]')
+data_retorno.send_keys(data_volta, Keys.ENTER)
+
+search_button = driver.find_element(By.CLASS_NAME, 'xFFcie')
+search_button.click()
+
 time.sleep(5)
 
-input_partida = driver.find_element(By.XPATH, '//input[@aria-label="Partida"]')
-input_partida.send_keys(data_ida)
+conclued_button = driver.find_element(By.CLASS_NAME, 'WXaAwc')
+conclued_button.click()
+
+time.sleep(5)
+
+search_button = driver.find_element(By.CLASS_NAME, 'xFFcie')
+search_button.click()
