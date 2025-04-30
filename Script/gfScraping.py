@@ -29,8 +29,8 @@ driver.get('https://www.google.com/travel/flights?gl=BR&hl=pt-BR')
 
 partida = driver.find_element(By.XPATH, '//input[@aria-label="De onde?"]')
 
-partida.send_keys(Keys.CONTROL + "a")  # Seleciona tudo
-partida.send_keys(Keys.BACKSPACE)      # Apaga
+partida.send_keys(Keys.CONTROL + "a") 
+partida.send_keys(Keys.BACKSPACE)      
 partida.send_keys(partida_User)
 
 time.sleep(5)
@@ -64,3 +64,15 @@ time.sleep(5)
 
 search_button = driver.find_element(By.CLASS_NAME, 'xFFcie')
 search_button.click()
+
+time.sleep(5)
+
+# Raspagem de Dados de Viagem e Criação do Data Frame
+
+button = driver.find_element(By.XPATH, "//span[text()='Mostrar mais voos']")
+button.click()
+
+time.sleep(5)
+
+travel_info = driver.find_elements(By.TAG_NAME, "li")
+
