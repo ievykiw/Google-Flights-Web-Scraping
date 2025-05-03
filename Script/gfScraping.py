@@ -76,14 +76,12 @@ for cidade in lista_cidade:
 
     viagem_info = driver.find_elements(By.TAG_NAME, "li")
 
-    lista_info = []
-
     for info in viagem_info:
         dados = info.text.split("\n")
         if len(dados) < 6:
             continue
 
-        horario_ida = dados[0]
+        horarios_trajeto = dados[0]
         companhia_aerea = dados[1]
         duracao_total = dados[2]
         origem_destino = dados[3]
@@ -94,7 +92,7 @@ for cidade in lista_cidade:
         lista_info.append([
             partida_User,
             cidade.title(),
-            horario_ida,
+            horarios_trajeto,
             companhia_aerea,
             duracao_total,
             origem_destino,
@@ -107,4 +105,9 @@ for cidade in lista_cidade:
         
     print(lista_info)
 
+#Criação e Modelagem do DataFrame para Análise de Dados
 
+colunas = ['local_partida', 'local_destino', 'horarios_trajeto', 'companhia_aerea', 'duracao_total', 'origem_destino', 'numero_paradas', 'escalas', 'data_ida', 'data_volta', 'preco']
+
+df = pd.DataFrame(lista_info, columns=colunas)
+df.to_csv("dados_voos.csv", index=False)
