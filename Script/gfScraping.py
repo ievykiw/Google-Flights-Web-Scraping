@@ -74,5 +74,35 @@ button.click()
 
 time.sleep(5)
 
-travel_info = driver.find_elements(By.TAG_NAME, "li")
+viagem_info = driver.find_elements(By.TAG_NAME, "li")
 
+lista_info = []
+
+for info in viagem_info:
+    dados = info.text.split("\n")
+    if len(dados) < 6:
+        continue
+
+    horario_ida = dados[0]
+    companhia_aerea = dados[1]
+    duracao_total = dados[2]
+    origem_destino = dados[3]
+    numero_paradas = dados[4]
+    escala_tempo_local = dados[5] if "h" in dados[5] or "min" in dados[5] else "Direto"
+    preco_total = dados[8] if len(dados) > 8 and dados[8].strip() else "Preço não informado"
+
+    lista_info.append([
+        partida_User,
+        destino_User.title(),
+        horario_ida,
+        companhia_aerea,
+        duracao_total,
+        origem_destino,
+        numero_paradas,
+        escala_tempo_local,
+        data_ida,
+        data_volta,
+        preco_total
+    ])
+
+print(lista_info)
