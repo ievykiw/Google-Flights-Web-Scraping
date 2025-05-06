@@ -13,10 +13,23 @@ def clicar(driver, e_type, selector):
         else:
             break 
 
+def case_exceptions(cidade):
+    exceptions = ['de', 'do', 'da', 'dos', 'das', 'e', 'ou', 'a', 'an', 'in', 'at', 'for']
+    cidade_texto = cidade.split()
+    cidade_caps = []
+
+    for texto in cidade_texto:
+        if texto.lower() not in exceptions:
+            cidade_caps.append(texto.capitalize())
+        else:
+            cidade_caps.append(texto.lower())
+    
+    return ' '.join(cidade_caps)
+
 partida_User = input("Digite a sua cidade de partida: ").strip().title()
 destino_User = input("Digite as cidades que você deseja, separado por vírgulas: ")
-data_ida = input("Digite a Data de Partida DD/MM/AA¨: ").strip()
-data_volta = input("Digite a Data de Retorn DD/MM/AA: ").strip()
+data_ida = input("Digite a Data de Partida DD/MM/AA: ").strip()
+data_volta = input("Digite a Data de Retorno DD/MM/AA: ").strip()
 
 
 lista_cidade = [cidade.strip().title() for cidade in destino_User.split(",")]
@@ -31,23 +44,23 @@ for cidade in lista_cidade:
 
     partida.send_keys(Keys.CONTROL + "a") 
     partida.send_keys(Keys.BACKSPACE)      
-    partida.send_keys(partida_User)
+    partida.send_keys(case_exceptions(partida_User))
 
     time.sleep(5)
 
     clicar(driver, By.XPATH, f'//li[@aria-label="{partida_User}"]')
 
     destino = driver.find_element(By.XPATH, '//input[@aria-label="Para onde? "]')
-    destino.send_keys(cidade)
+    destino.send_keys(case_exceptions(cidade))
 
     time.sleep(5)
 
-    clicar(driver, By.XPATH, f"(//div[@class='zsRT0d'][normalize-space()='{cidade}'])[1]")
+    clicar(driver, By.XPATH, f"(//div[@class='zsRT0d'][normalize-space()='{case_exceptions(cidade)}'])[1]")
 
     data_partida = driver.find_element(By.XPATH, '//input[@aria-label="Partida"]')
-    data_partida.send_keys(data_ida)
+    data_partida.send_keys(data_ida, Keys.ENTER)
 
-    time.sleep(3)
+    time.sleep(5)
 
     data_retorno = driver.find_element(By.XPATH, '//input[@aria-label="Volta"]')
     data_retorno.send_keys(data_volta, Keys.ENTER)
@@ -103,8 +116,6 @@ for cidade in lista_cidade:
             preco_total
         ])
         
-    print(lista_info)
-
 #Criação e Modelagem do DataFrame para Análise de Dados
 
 colunas = ['local_partida', 'local_destino', 'horarios_trajeto', 'companhia_aerea', 'duracao_total', 'origem_destino', 'numero_paradas', 'escalas', 'data_ida', 'data_volta', 'preco']
