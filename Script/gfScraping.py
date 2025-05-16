@@ -100,9 +100,6 @@ with st.form("informacoes_voo"):
             st.error("O campo Data de Retorno é Obrigatório")
         else:
             loading_placeholder.markdown(html_code, unsafe_allow_html=True)
-            
-            print(str(data_ida).replace("-","/"), str(data_volta).replace("-","/"))
-
             lista_cidade = [cidade.strip().title() for cidade in destino_User.split(",")]
 
             if navegador_opcao == "Chrome":
